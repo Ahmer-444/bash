@@ -1,0 +1,280 @@
+
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+public class ThreadApplet implements Runnable {
+
+	   Thread t;
+
+	   public void run() {
+		   System.out.println("Rectangle Applet Initiated!!!");
+		   while(true){
+			    rectangle_junk rect = new rectangle_junk();
+			    rect.draw_method();   
+		   }
+		   //Rectangle window1 = new Rectangle("Rectangle Window");
+	    }
+	   
+	   public static void main(String[] args) throws Exception {
+		      Thread t = new Thread(new ThreadApplet());
+		      // this will call run() function
+		      t.start();
+
+		      Thread t2 = new Thread(new ThreadApplet2());
+		      // this will call run() function
+		      t2.start();
+		   }
+
+	}
+
+
+	class ThreadApplet2 implements Runnable {
+
+		   Thread t;
+
+		   public void run() {
+			   System.out.println("Circle Applet Initiated!!!");
+			   while(true){
+				    circle_junk circ = new circle_junk();
+				    circ.circle_method();   
+			   }
+
+		    }
+	}
+
+	class circle_junk{
+		  circle_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Circle Thread!!!");
+			  }
+	    //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void circle_method()
+		{
+			System.out.println("circle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+		    System.out.println("circle erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+
+	}
+
+	class rectangle_junk{
+		  rectangle_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Rectangle Thread!!!");
+			  }
+	  //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void draw_method()
+		{
+			System.out.println("rectangle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+		    System.out.println("rectangle erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+
+	}
+/*
+class RectangleThreadDraw implements Runnable {
+
+	   Thread t;
+
+	   public void run() {
+		   //System.out.println("Rectangle Applet Initiated!!!");
+		   while(true){
+			    rectangle_junk rect = new rectangle_junk();
+			    rect.draw_method();   
+		   }
+	    }
+	   
+	}
+
+class RectangleThreadErase implements Runnable {
+
+	   Thread t;
+
+	   public void run() {
+		   //System.out.println("Rectangle Applet Initiated!!!");
+		   while(true){
+			    rectangle_junk rect = new rectangle_junk();
+			    rect.draw_method();   
+		   }
+	    }
+	   
+	}
+
+class CircleThreadDraw implements Runnable {
+
+		   Thread t;
+
+		   public void run() {
+			   //System.out.println("Circle Applet Initiated!!!");
+			   while(true){
+				    circle_junk circ = new circle_junk();
+				    circ.draw_method();   
+			   }
+
+		    }
+	}
+
+class CircleThreadErase implements Runnable {
+
+	   Thread t;
+
+	   public void run() {
+		   //System.out.println("Circle Applet Initiated!!!");
+		   while(true){
+			    circle_junk circ = new circle_junk();
+			    circ.draw_method();   
+		   }
+
+	    }
+}
+
+class circle_junk{
+		  circle_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Circle Thread!!!");
+			  }
+	    //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void draw_method()
+		{
+			System.out.println("Circle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+		
+		void erase_method()
+		{
+			System.out.println("Circle Erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+
+	}
+
+	class rectangle_junk{
+		  rectangle_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Rectangle Thread!!!");
+			  }
+	  //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void draw_method()
+		{
+			System.out.println("Rectangle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+		void erase_method()
+		{
+			System.out.println("Rectangle Erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+	}
+*/
+public class FourButtonApplet extends Applet implements ActionListener{
+
+public void init(){
+       
+       
+        Button button1 = new Button();
+        Button button2 = new Button();
+        Button button3 = new Button();
+        Button button4 = new Button();
+        button1.setLabel("Start");
+        button2.setLabel("Sync");
+        button3.setLabel("Unsync");
+        button4.setLabel("Stop");
+       
+        add(button1);
+        add(button2);
+        add(button3);
+        add(button4);
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
+        button4.addActionListener(this);
+}
+
+public void actionPerformed(ActionEvent e) {
+	//System.out.println(e.getActionCommand());
+	if (e.getActionCommand() == "Start"){
+		  System.out.println("Start Button was pressed");
+		  
+		  System.out.println("Rectangle Applet Initiated!!!");
+		  System.out.println("Circle Applet Initiated!!!");
+
+	      Thread T1 = new Thread(new ThreadApplet());
+	      Thread T2 = new Thread(new ThreadApplet2());
+
+	      T1.start();
+	      T2.start();
+	      //T3.start();
+	      //T4.start();
+
+	      // wait for threads to end
+	      try {
+	         T1.join();
+	         T2.join();
+	         //T3.join();
+	         //T4.join();
+	         
+	      }catch( Exception ee) {
+	         System.out.println("Interrupted");
+	      }
+	}
+		
+	else if(e.getActionCommand() == "Sync")
+		System.out.println("Synchroized Button was pressed");
+	else if(e.getActionCommand() == "Unsync")
+		System.out.println("UnSynchronized Button was pressed");
+	else
+		System.out.println("Stop Button was pressed");
+}
+public void paint(Graphics g){
+    
+    setForeground(Color.blue);
+    //this will draw a filled rectangle of width 50 & height 100 at (10,10)
+    g.drawRect(40,60,50,100);
+    g.fillRect(100,100,50,50);
+}
+Button button1, button2,button3,button4;
+}

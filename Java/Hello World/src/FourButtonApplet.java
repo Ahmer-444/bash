@@ -1,12 +1,138 @@
 
 import java.applet.*;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionListener;
 import java.awt.event.*;
 
+class RectangleThreadDraw extends Thread {
 
+	   Thread t;
+	   ActionEvent  ee;
+
+	   RectangleThreadDraw( ActionEvent e) {
+	      ee = e;
+	   }
+	   
+
+	   public void run() {
+		   System.out.println(ee.getActionCommand());
+		   //System.out.println("Rectangle Applet Initiated!!!");
+		   while(true){
+			    rectangles_junk rect = new rectangles_junk();
+			    rect.draw_method();
+			    
+			    if (ee.getActionCommand() == "Stop")
+			    {
+			    	System.out.println("Interrupted");
+			    	while(true);
+			    	//t.interrupt();
+			    }
+			    
+		   }
+	    }
+	   
+	}
+
+class RectangleThreadErase extends Thread {
+
+	   Thread t;
+
+	   public void run() {
+		   //System.out.println("Rectangle Applet Initiated!!!");
+		   while(true){
+			    rectangles_junk rect = new rectangles_junk();
+			    rect.erase_method();   
+		   }
+	    }
+	   
+	}
+
+class CircleThreadDraw extends Thread {
+
+		   Thread t;
+
+		   public void run() {
+			   //System.out.println("Circle Applet Initiated!!!");
+			   while(true){
+				    circles_junk circ = new circles_junk();
+				    circ.draw_method();   
+			   }
+
+		    }
+	}
+
+class CircleThreadErase extends Thread {
+
+	   Thread t;
+
+	   public void run() {
+		   //System.out.println("Circle Applet Initiated!!!");
+		   while(true){
+			    circles_junk circ = new circles_junk();
+			    circ.erase_method();   
+		   }
+
+	    }
+}
+
+class circles_junk{
+		  circles_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Circle Thread!!!");
+			  }
+	    //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void draw_method()
+		{
+			System.out.println("Circle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+		
+		void erase_method()
+		{
+			System.out.println("Circle Erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+
+	}
+
+	class rectangles_junk{
+		  rectangles_junk() {
+			  System.out.println(Thread.currentThread().getName() + "  " + "Rectangle Thread!!!");
+			  }
+	  //this will draw a rectangle of width 50 & height 100 at (10,10)
+		void draw_method()
+		{
+			System.out.println("Rectangle Drawn!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+		void erase_method()
+		{
+			System.out.println("Rectangle Erased!!!");
+		    try {
+				Thread.sleep(4000);
+		    } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+
+		}
+	}
 public class FourButtonApplet extends Applet implements ActionListener{
 
 public void init(){
@@ -33,14 +159,41 @@ public void init(){
 
 public void actionPerformed(ActionEvent e) {
 	//System.out.println(e.getActionCommand());
-	if (e.getActionCommand() == "Start") 
-		System.out.println("Start Button was pressed");
+    Thread T1 = new Thread(new RectangleThreadDraw(e));
+    Thread T2 = new Thread(new RectangleThreadErase());
+    Thread T3 = new Thread(new CircleThreadDraw());
+    Thread T4 = new Thread(new CircleThreadErase());
+	if (e.getActionCommand() == "Start"){
+		  
+		  System.out.println("Start Button was pressed");
+		  
+		  System.out.println("Rectangle Applet Initiated!!!");
+		  System.out.println("Circle Applet Initiated!!!");
+
+	      T1.start();
+	      T2.start();
+	      T3.start();
+	      T4.start();
+
+	      // wait for threads to end
+	      try {
+	         T1.join();
+	         T2.join();
+	         T3.join();
+	         T4.join();
+	         
+	      }catch( Exception ee) {
+	         System.out.println("Interrupted");
+	      }
+	}
+		
 	else if(e.getActionCommand() == "Sync")
 		System.out.println("Synchroized Button was pressed");
 	else if(e.getActionCommand() == "Unsync")
 		System.out.println("UnSynchronized Button was pressed");
-	else
+	else{
 		System.out.println("Stop Button was pressed");
+	}
 }
 public void paint(Graphics g){
     
